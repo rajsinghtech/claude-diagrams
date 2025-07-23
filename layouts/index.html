@@ -1,0 +1,208 @@
+{{ define "main" }}
+<div class="homepage-container">
+  <header class="homepage-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}
+    <p class="description">{{ . }}</p>
+    {{ end }}
+  </header>
+
+  <div class="diagrams-grid">
+    {{ $diagrams := where .Site.RegularPages "Section" "diagrams" }}
+    {{ range $diagrams }}
+      <article class="diagram-card">
+        <a href="{{ .Permalink }}" class="diagram-link">
+          <div class="diagram-preview">
+            {{ with .Resources.GetMatch "*.svg" }}
+              <div class="svg-thumbnail">
+                {{ .Content | safeHTML }}
+              </div>
+            {{ else }}
+              {{ $svgPath := path.Join "content" .File.Dir (replace .File.BaseFileName ".md" ".svg") }}
+              {{ if fileExists $svgPath }}
+                <img src="{{ .Permalink }}{{ replace .File.BaseFileName ".md" ".svg" }}" alt="{{ .Title }}" loading="lazy">
+              {{ else }}
+                <div class="placeholder">
+                  <span>{{ .Title }}</span>
+                </div>
+              {{ end }}
+            {{ end }}
+          </div>
+          <div class="diagram-info">
+            <h3>{{ .Title }}</h3>
+            {{ with .Description }}
+            <p>{{ . | truncate 100 }}</p>
+            {{ end }}
+            <div class="diagram-meta">
+              <span class="category">{{ .Parent.Title }}</span>
+              {{ if .Date }}
+              <time>{{ .Date.Format "Jan 2, 2006" }}</time>
+              {{ end }}
+            </div>
+          </div>
+        </a>
+      </article>
+    {{ end }}
+  </div>
+</div>
+
+<style>
+  .homepage-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .homepage-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .homepage-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .homepage-header .description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .diagrams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .diagram-card {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+  }
+
+  .diagram-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .diagram-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .diagram-preview {
+    height: 250px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .svg-thumbnail {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
+
+  .svg-thumbnail svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .diagram-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 1rem;
+  }
+
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .diagram-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .diagram-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  .diagram-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+  }
+
+  .diagram-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: auto;
+  }
+
+  .category {
+    background: var(--accent);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* Dark mode adjustments */
+  .dark .diagram-preview {
+    background: #1a1a1a;
+  }
+
+  .dark .svg-thumbnail svg {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .diagrams-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .homepage-header h1 {
+      font-size: 2rem;
+    }
+
+    .diagram-preview {
+      height: 200px;
+    }
+  }
+</style>
+{{ end }}

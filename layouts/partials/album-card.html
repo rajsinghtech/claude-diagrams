@@ -1,0 +1,32 @@
+{{ $gallery := partial "get-gallery.html" . }}
+{{ $isSVG := false }}
+{{ with $gallery.thumbnail }}
+  {{ $isSVG = eq .MediaType.SubType "svg" }}
+{{ end }}
+
+<article class="album-card">
+  {{ $link := .RelPermalink }}
+  {{ if .Params.link }}{{ $link = .Params.link }}{{ end }}
+  <a href="{{ $link }}">
+    {{ with $gallery.thumbnail }}
+      {{ if $isSVG }}
+        <figure class="album-card__image" style="padding-bottom: 75%;">
+          <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" loading="lazy" />
+        </figure>
+      {{ else }}
+        <figure class="album-card__image" style="padding-bottom: {{ div (mul .Height 100.0) .Width }}%;">
+          <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" />
+        </figure>
+      {{ end }}
+    {{ else }}
+      <figure class="album-card__image" style="padding-bottom: 75%;">
+        <div class="album-card__placeholder">{{ .Title }}</div>
+      </figure>
+    {{ end }}
+    <div class="album-card__meta">
+      <h2 class="album-card__title">{{ .Title }}</h2>
+      {{ with .Description }}<p class="album-card__description">{{ . }}</p>{{ end }}
+      {{ with $gallery.imageCount }}<p class="album-card__count">{{ . }} {{ i18n "images" . }}</p>{{ end }}
+    </div>
+  </a>
+</article>

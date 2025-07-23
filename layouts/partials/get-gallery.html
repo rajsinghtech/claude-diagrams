@@ -1,0 +1,24 @@
+{{ $gallery := dict }}
+
+{{ with .Resources.GetMatch "featured" }}
+  {{ $gallery = dict "featured" . }}
+{{ else }}
+  {{ with .Resources.ByType "image" }}
+    {{ with index . 0 }}
+      {{ $gallery = dict "featured" . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with $gallery.featured }}
+  {{ if eq .MediaType.SubType "svg" }}
+    {{ $gallery = merge $gallery (dict "thumbnail" . "featuredImage" .) }}
+  {{ else }}
+    {{ $gallery = merge $gallery (dict "thumbnail" (.Filter (images.Process "resize 600x webp")) "featuredImage" (.Filter (images.Process "resize 1200x webp"))) }}
+  {{ end }}
+{{ end }}
+
+{{ $imageCount := len (.Resources.ByType "image") }}
+{{ $gallery = merge $gallery (dict "imageCount" $imageCount) }}
+
+{{ return $gallery }}

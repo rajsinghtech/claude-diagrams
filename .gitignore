@@ -1,0 +1,59 @@
+# Binaries
+/claude-diagrams
+claude-diagrams
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Hugo
+public/
+resources/
+.hugo_build.lock
+hugo_stats.json
+
+# Go
+go.work
+go.work.sum
+*.test
+*.out
+coverage.txt
+coverage.html
+*.prof
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.cache
+
+# Build artifacts
+dist/
+build/

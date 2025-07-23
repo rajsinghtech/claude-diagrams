@@ -1,0 +1,3 @@
+# Production configuration for GitHub Pages
+# This will be automatically used when HUGO_ENV=production
+# The baseURL will be dynamically set by the GitHub Actions workflow

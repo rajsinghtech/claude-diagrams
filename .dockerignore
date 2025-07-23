@@ -1,0 +1,31 @@
+# Binaries
+claude-diagrams
+*.exe
+
+# Hugo build output (will be regenerated)
+public/
+resources/
+
+# Development files
+.git/
+.github/
+*.md
+!README.md
+!CLAUDE.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+
+# Go build cache
+go.work
+go.work.sum

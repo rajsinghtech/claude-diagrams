@@ -1,0 +1,116 @@
+{{ define "main" }}
+<article class="diagram-single">
+  <header class="diagram-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}
+    <p class="description">{{ . }}</p>
+    {{ end }}
+    
+    <div class="metadata">
+      {{ if .Date }}
+      <time>{{ .Date.Format "January 2, 2006" }}</time>
+      {{ end }}
+      
+      {{ if .Params.tags }}
+      <div class="tags">
+        {{ range .Params.tags }}
+        <a href="/tags/{{ . | urlize }}/" class="tag">#{{ . }}</a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </header>
+
+  <div class="diagram-container">
+    {{ with .Resources.GetMatch "*.svg" }}
+      <div class="svg-wrapper">
+        {{ .Content | safeHTML }}
+      </div>
+    {{ end }}
+  </div>
+
+  {{ if .Content }}
+  <div class="diagram-description">
+    {{ .Content }}
+  </div>
+  {{ end }}
+</article>
+
+<style>
+  .diagram-single {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .diagram-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .diagram-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  
+  .metadata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background: var(--bg-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+  }
+  
+  .tag:hover {
+    background: var(--accent);
+    color: white;
+  }
+  
+  .diagram-container {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    overflow: auto;
+  }
+  
+  .svg-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+  }
+  
+  .svg-wrapper svg {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .diagram-description {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+</style>
+{{ end }}
