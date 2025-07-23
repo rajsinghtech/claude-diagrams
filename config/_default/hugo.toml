@@ -3,7 +3,7 @@ defaultContentLanguage = "en"
 disableKinds = ["taxonomy"]
 enableRobotsTXT = true
 languageCode = "en"
-timeZone = "Europe/Berlin"
+timeZone = "America/New_York"
 timeout = "120s"
 title = "Claude Diagrams"
 

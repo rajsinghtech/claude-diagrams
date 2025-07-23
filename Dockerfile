@@ -1,8 +1,11 @@
 # Build stage
 FROM golang:1.20-alpine AS builder
 
-# Install Hugo
-RUN apk add --no-cache git hugo
+# Install Hugo and dependencies
+RUN apk add --no-cache git hugo tzdata
+
+# Set timezone environment
+ENV TZ=America/New_York
 
 WORKDIR /app
 
@@ -22,7 +25,10 @@ RUN go build -o claude-diagrams
 # Runtime stage
 FROM alpine:latest
 
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates tzdata
+
+# Set timezone environment
+ENV TZ=America/New_York
 
 WORKDIR /root/
 
