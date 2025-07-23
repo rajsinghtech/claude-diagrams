@@ -1,0 +1,89 @@
+<svg width="900" height="700" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="700" fill="#f5f5f5"/>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold">Microservices Architecture Pattern</text>
+  
+  <!-- API Gateway -->
+  <rect x="350" y="70" width="200" height="60" fill="#3f51b5" stroke="#303f9f" stroke-width="2" rx="5"/>
+  <text x="450" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="white" font-weight="bold">API Gateway</text>
+  
+  <!-- Services -->
+  <g id="services">
+    <!-- User Service -->
+    <rect x="50" y="200" width="150" height="100" fill="#4caf50" stroke="#388e3c" stroke-width="2" rx="5"/>
+    <text x="125" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">User Service</text>
+    <rect x="70" y="250" width="110" height="30" fill="#ffffff" opacity="0.9" rx="3"/>
+    <text x="125" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Authentication</text>
+    
+    <!-- Product Service -->
+    <rect x="250" y="200" width="150" height="100" fill="#ff9800" stroke="#f57c00" stroke-width="2" rx="5"/>
+    <text x="325" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">Product Service</text>
+    <rect x="270" y="250" width="110" height="30" fill="#ffffff" opacity="0.9" rx="3"/>
+    <text x="325" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Inventory</text>
+    
+    <!-- Order Service -->
+    <rect x="450" y="200" width="150" height="100" fill="#e91e63" stroke="#c2185b" stroke-width="2" rx="5"/>
+    <text x="525" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">Order Service</text>
+    <rect x="470" y="250" width="110" height="30" fill="#ffffff" opacity="0.9" rx="3"/>
+    <text x="525" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Processing</text>
+    
+    <!-- Payment Service -->
+    <rect x="650" y="200" width="150" height="100" fill="#9c27b0" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+    <text x="725" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">Payment Service</text>
+    <rect x="670" y="250" width="110" height="30" fill="#ffffff" opacity="0.9" rx="3"/>
+    <text x="725" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Transactions</text>
+  </g>
+  
+  <!-- Message Queue -->
+  <rect x="250" y="380" width="400" height="60" fill="#607d8b" stroke="#455a64" stroke-width="2" rx="5"/>
+  <text x="450" y="415" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="white" font-weight="bold">Message Queue (RabbitMQ/Kafka)</text>
+  
+  <!-- Databases -->
+  <g id="databases">
+    <ellipse cx="125" cy="520" rx="60" ry="40" fill="#2196f3" stroke="#1976d2" stroke-width="2"/>
+    <text x="125" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">User DB</text>
+    
+    <ellipse cx="325" cy="520" rx="60" ry="40" fill="#2196f3" stroke="#1976d2" stroke-width="2"/>
+    <text x="325" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Product DB</text>
+    
+    <ellipse cx="525" cy="520" rx="60" ry="40" fill="#2196f3" stroke="#1976d2" stroke-width="2"/>
+    <text x="525" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Order DB</text>
+    
+    <ellipse cx="725" cy="520" rx="60" ry="40" fill="#2196f3" stroke="#1976d2" stroke-width="2"/>
+    <text x="725" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Payment DB</text>
+  </g>
+  
+  <!-- Cache -->
+  <rect x="50" y="600" width="150" height="50" fill="#f44336" stroke="#d32f2f" stroke-width="2" rx="5"/>
+  <text x="125" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">Redis Cache</text>
+  
+  <!-- Monitoring -->
+  <rect x="700" y="600" width="150" height="50" fill="#795548" stroke="#5d4037" stroke-width="2" rx="5"/>
+  <text x="775" y="630" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">Monitoring</text>
+  
+  <!-- Connections -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+  
+  <!-- API Gateway to Services -->
+  <line x1="450" y1="130" x2="125" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="450" y1="130" x2="325" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="450" y1="130" x2="525" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="450" y1="130" x2="725" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- Services to Message Queue -->
+  <line x1="125" y1="300" x2="300" y2="380" stroke="#666" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="325" y1="300" x2="350" y2="380" stroke="#666" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="525" y1="300" x2="500" y2="380" stroke="#666" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="725" y1="300" x2="600" y2="380" stroke="#666" stroke-width="1" stroke-dasharray="5,5"/>
+  
+  <!-- Services to Databases -->
+  <line x1="125" y1="300" x2="125" y2="480" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="325" y1="300" x2="325" y2="480" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="525" y1="300" x2="525" y2="480" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="725" y1="300" x2="725" y2="480" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>
