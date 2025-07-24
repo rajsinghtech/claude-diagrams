@@ -1,0 +1,197 @@
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" fill="#FFFFFF"/>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#000000">Claude Diagrams Architecture</text>
+  
+  <!-- User Layer -->
+  <g transform="translate(600, 120)">
+    <rect x="-500" y="-40" width="1000" height="80" fill="#F5F5F5" stroke="#000000" stroke-width="2"/>
+    <text x="0" y="-15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#000000">User Interface</text>
+    
+    <!-- Browser -->
+    <g transform="translate(-300, 20)">
+      <rect x="-60" y="-15" width="120" height="30" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">Web Browser</text>
+    </g>
+    
+    <!-- GitHub Actions -->
+    <g transform="translate(0, 20)">
+      <rect x="-60" y="-15" width="120" height="30" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">GitHub Actions</text>
+    </g>
+    
+    <!-- CLI -->
+    <g transform="translate(300, 20)">
+      <rect x="-60" y="-15" width="120" height="30" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">CLI Tools</text>
+    </g>
+  </g>
+  
+  <!-- Go Web Server Layer -->
+  <g transform="translate(600, 280)">
+    <rect x="-400" y="-60" width="800" height="120" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text x="0" y="-35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#000000">Go Web Server</text>
+    
+    <!-- HTTP Handler -->
+    <g transform="translate(-250, 0)">
+      <rect x="-70" y="-20" width="140" height="40" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">HTTP Handler</text>
+    </g>
+    
+    <!-- Embedded FS -->
+    <g transform="translate(0, 0)">
+      <rect x="-70" y="-20" width="140" height="40" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">Embedded FS</text>
+    </g>
+    
+    <!-- Docker Support -->
+    <g transform="translate(250, 0)">
+      <rect x="-70" y="-20" width="140" height="40" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">Docker Support</text>
+    </g>
+    
+    <!-- Port Label -->
+    <text x="0" y="45" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">Port 8080</text>
+  </g>
+  
+  <!-- Hugo Static Site Layer -->
+  <g transform="translate(600, 460)">
+    <rect x="-500" y="-60" width="1000" height="120" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text x="0" y="-35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#000000">Hugo Static Site Generator</text>
+    
+    <!-- Gallery Theme -->
+    <g transform="translate(-350, 10)">
+      <rect x="-70" y="-20" width="140" height="40" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">Gallery Theme</text>
+    </g>
+    
+    <!-- Content Pages -->
+    <g transform="translate(-100, 10)">
+      <rect x="-70" y="-20" width="140" height="40" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">Content Pages</text>
+    </g>
+    
+    <!-- SVG Diagrams -->
+    <g transform="translate(150, 10)">
+      <rect x="-70" y="-20" width="140" height="40" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">SVG Diagrams</text>
+    </g>
+    
+    <!-- Build Output -->
+    <g transform="translate(380, 10)">
+      <rect x="-60" y="-20" width="120" height="40" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+      <text x="0" y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">Public Assets</text>
+    </g>
+  </g>
+  
+  <!-- GitHub Integration -->
+  <g transform="translate(150, 640)">
+    <rect x="-100" y="-60" width="200" height="120" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text x="0" y="-35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#000000">GitHub Integration</text>
+    
+    <text x="0" y="-5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Issue Comments</text>
+    <text x="0" y="15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• @claude Mentions</text>
+    <text x="0" y="35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Auto Updates</text>
+  </g>
+  
+  <!-- Claude API -->
+  <g transform="translate(450, 640)">
+    <rect x="-100" y="-60" width="200" height="120" fill="#FFFFFF" stroke="#2196F3" stroke-width="2"/>
+    <text x="0" y="-35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#000000">Claude API</text>
+    
+    <text x="0" y="-5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Diagram Updates</text>
+    <text x="0" y="15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Code Generation</text>
+    <text x="0" y="35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• PR Creation</text>
+  </g>
+  
+  <!-- Development Tools -->
+  <g transform="translate(750, 640)">
+    <rect x="-100" y="-60" width="200" height="120" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text x="0" y="-35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#000000">Development</text>
+    
+    <text x="0" y="-5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Live Reload</text>
+    <text x="0" y="15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Docker Build</text>
+    <text x="0" y="35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• CI/CD Pipeline</text>
+  </g>
+  
+  <!-- Deployment -->
+  <g transform="translate(1050, 640)">
+    <rect x="-100" y="-60" width="200" height="120" fill="#FFFFFF" stroke="#4CAF50" stroke-width="2"/>
+    <text x="0" y="-35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#000000">Deployment</text>
+    
+    <text x="0" y="-5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Docker Image</text>
+    <text x="0" y="15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• GitHub Pages</text>
+    <text x="0" y="35" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Self-Hosted</text>
+  </g>
+  
+  <!-- File System -->
+  <g transform="translate(600, 800)">
+    <rect x="-500" y="-30" width="1000" height="60" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+    <text x="0" y="-5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#000000">Project Structure</text>
+    
+    <text x="-400" y="20" text-anchor="middle" font-family="monospace" font-size="11" font-weight="500" fill="#374151">content/</text>
+    <text x="-250" y="20" text-anchor="middle" font-family="monospace" font-size="11" font-weight="500" fill="#374151">layouts/</text>
+    <text x="-100" y="20" text-anchor="middle" font-family="monospace" font-size="11" font-weight="500" fill="#374151">static/</text>
+    <text x="50" y="20" text-anchor="middle" font-family="monospace" font-size="11" font-weight="500" fill="#374151">public/</text>
+    <text x="200" y="20" text-anchor="middle" font-family="monospace" font-size="11" font-weight="500" fill="#374151">main.go</text>
+    <text x="350" y="20" text-anchor="middle" font-family="monospace" font-size="11" font-weight="500" fill="#374151">config/</text>
+  </g>
+  
+  <!-- Arrow Definitions -->
+  <defs>
+    <marker id="arrow-black" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000000" />
+    </marker>
+    <marker id="arrow-grey" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748B" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4CAF50" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2196F3" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF9800" />
+    </marker>
+  </defs>
+  
+  <!-- Connection Arrows with Proper Routing -->
+  
+  <!-- 1. Web Browser to HTTP Handler -->
+  <path d="M 300 160 L 300 190 L 350 190 L 350 220" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#arrow-black)"/>
+  <text x="325" y="185" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#000000">HTTP</text>
+  
+  <!-- 2. Embedded FS to Hugo (embeds static site) -->
+  <line x1="600" y1="340" x2="600" y2="400" stroke="#000000" stroke-width="2" marker-end="url(#arrow-black)"/>
+  <text x="610" y="370" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#000000">Embeds</text>
+  
+  <!-- 3. Hugo reads from File System -->
+  <path d="M 500 520 L 500 740 L 200 740 L 200 770" stroke="#64748B" stroke-width="1" stroke-dasharray="5,3" fill="none" marker-end="url(#arrow-grey)"/>
+  <text x="505" y="630" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">Reads</text>
+  
+  <!-- 4. GitHub Integration triggers Claude API -->
+  <line x1="250" y1="640" x2="350" y2="640" stroke="#000000" stroke-width="2" marker-end="url(#arrow-black)"/>
+  <text x="300" y="635" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#000000">Triggers</text>
+  
+  <!-- 5. Claude API updates SVG Diagrams -->
+  <path d="M 450 580 L 450 550 L 750 550 L 750 520" stroke="#2196F3" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+  <text x="600" y="545" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#2196F3">Updates Diagrams</text>
+  
+  <!-- 6. Development tools work with Hugo -->
+  <path d="M 750 580 L 750 540 L 600 540 L 600 520" stroke="#64748B" stroke-width="1" stroke-dasharray="5,3" fill="none" marker-end="url(#arrow-grey)"/>
+  <text x="675" y="535" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">Dev Mode</text>
+  
+  <!-- 7. Hugo builds to Public Assets -->
+  <line x1="750" y1="470" x2="920" y2="470" stroke="#000000" stroke-width="2" marker-end="url(#arrow-black)"/>
+  <text x="835" y="465" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#000000">Builds</text>
+  
+  <!-- 8. Public Assets to Deployment -->
+  <path d="M 980 520 L 980 560 L 1050 560 L 1050 580" stroke="#4CAF50" stroke-width="2" fill="none" marker-end="url(#arrow-green)"/>
+  <text x="985" y="555" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#4CAF50">Deploy</text>
+  
+  <!-- 9. GitHub Actions to Deployment (CI/CD) -->
+  <path d="M 660 140 L 1120 140 L 1120 640 L 1100 640" stroke="#FF9800" stroke-width="2" fill="none" marker-end="url(#arrow-orange)"/>
+  <text x="1125" y="390" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#FF9800">CI/CD</text>
+</svg>

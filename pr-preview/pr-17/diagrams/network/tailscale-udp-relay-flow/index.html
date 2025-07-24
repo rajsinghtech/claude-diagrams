@@ -1,0 +1,86 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Tailscale UDP Peer Relay Flow | Claude Diagrams</title>
+<meta name=generator content="Hugo 0.121.2"><link rel=stylesheet href=/claude-diagrams/pr-preview/pr-17/css/main.min.6031f18919a5919243f3aef7c58df672be3052a45dd4517b8fc728761fda4de4.css></head><body><main><article class=diagram-single><header class=diagram-header><h1>Tailscale UDP Peer Relay Flow</h1><p class=description>Visualizing how Tailscale uses DERP servers for UDP relay and connection establishment</p><div class=metadata><time>July 24, 2025</time><div class=tags><a href=/claude-diagrams/pr-preview/pr-17/tags/tailscale/ class=tag>#tailscale</a>
+<a href=/claude-diagrams/pr-preview/pr-17/tags/derp/ class=tag>#derp</a>
+<a href=/claude-diagrams/pr-preview/pr-17/tags/udp/ class=tag>#udp</a>
+<a href=/claude-diagrams/pr-preview/pr-17/tags/relay/ class=tag>#relay</a>
+<a href=/claude-diagrams/pr-preview/pr-17/tags/nat-traversal/ class=tag>#nat-traversal</a>
+<a href=/claude-diagrams/pr-preview/pr-17/tags/mesh-vpn/ class=tag>#mesh-vpn</a>
+<a href=/claude-diagrams/pr-preview/pr-17/tags/p2p/ class=tag>#p2p</a></div></div></header><div class=diagram-container></div><div class=diagram-description><h2 id=overview>Overview</h2><p>This diagram illustrates the basic UDP peer relay flow in Tailscale, showing how DERP (Designated Encrypted Relay Points) servers facilitate connection establishment and serve as fallback relays when direct peer-to-peer connections are not possible.</p><div class=mermaid-wrapper><pre class=mermaid>graph TD
+    subgraph "Node A Network"
+        NodeA[Node A<br>100.64.1.10<br>Behind NAT]
+    end
+    
+    subgraph "DERP Infrastructure"
+        DERP[DERP Server<br>nyc.derp.example<br>Relay Only]
+    end
+    
+    subgraph "Node B Network"
+        NodeB[Node B<br>100.64.2.20<br>Behind NAT]
+    end
+    
+    subgraph "Connection Flow"
+        NodeA -->|1. Initial Connection<br>via DERP| DERP
+        DERP -->|2. Relay Encrypted<br>WireGuard Traffic| NodeB
+        NodeA -.->|3. Attempt Direct<br>Connection<br>NAT Traversal| NodeB
+        NodeA ==>|4. Upgrade to Direct<br>P2P Connection<br>When Successful| NodeB
+    end
+    
+    style NodeA fill:#1976d2,stroke:#fff,stroke-width:2px,color:#fff
+    style NodeB fill:#1976d2,stroke:#fff,stroke-width:2px,color:#fff
+    style DERP fill:#f57c00,stroke:#fff,stroke-width:2px,color:#fff
+    
+    classDef relay stroke-dasharray: 5 5
+    class DERP relay
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=key-points>Key Points</h2><ol><li><strong>Initial Connection</strong>: All connections start through DERP for instant connectivity</li><li><strong>Encrypted Relay</strong>: DERP servers only relay encrypted WireGuard packets, they cannot decrypt the traffic</li><li><strong>Parallel Discovery</strong>: While maintaining DERP connection, nodes attempt direct NAT traversal</li><li><strong>Transparent Upgrade</strong>: When direct connection succeeds, traffic seamlessly switches from relay to P2P</li></ol><h2 id=connection-types>Connection Types</h2><ul><li><strong>Solid Lines</strong>: Active data flow</li><li><strong>Dashed Lines</strong>: NAT traversal attempts</li><li><strong>Double Lines</strong>: Upgraded direct P2P connection</li></ul></div></article><style>.diagram-single{max-width:1200px;margin:0 auto;padding:2rem}.diagram-header{margin-bottom:2rem;text-align:center}.diagram-header h1{font-size:2.5rem;margin-bottom:1rem}.description{font-size:1.2rem;color:var(--text-secondary);margin-bottom:1rem}.metadata{display:flex;justify-content:center;align-items:center;gap:2rem;color:var(--text-secondary);font-size:.9rem}.tags{display:flex;gap:.5rem}.tag{background:var(--bg-secondary);padding:.25rem .75rem;border-radius:9999px;text-decoration:none;color:var(--text-secondary);transition:all .3s}.tag:hover{background:var(--accent);color:#fff}.diagram-container{background:var(--bg-secondary);border-radius:8px;padding:2rem;margin:2rem 0;overflow:auto}.svg-wrapper{display:flex;justify-content:center;align-items:center;min-height:400px}.svg-wrapper svg{max-width:100%;height:auto}.diagram-description{margin-top:2rem;font-size:1.1rem;line-height:1.8}</style></main><script type=module>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1a1a1a',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#ffffff',
+        lineColor: '#ffffff',
+        secondaryColor: '#2196f3',
+        tertiaryColor: '#4caf50',
+        background: '#1a1a1a',
+        mainBkg: '#2a2a2a',
+        secondBkg: '#2196f3',
+        tertiaryBkg: '#4caf50',
+        secondaryBorderColor: '#ffffff',
+        tertiaryBorderColor: '#ffffff',
+        secondaryTextColor: '#ffffff',
+        tertiaryTextColor: '#ffffff',
+        edgeLabelBackground: '#2a2a2a',
+        nodeTextColor: '#ffffff',
+        textColor: '#ffffff',
+        titleColor: '#ffffff',
+        labelTextColor: '#ffffff',
+        actorBorder: '#ffffff',
+        actorBkg: '#2a2a2a',
+        actorTextColor: '#ffffff',
+        actorLineColor: '#ffffff',
+        signalColor: '#ffffff',
+        signalTextColor: '#ffffff',
+        labelBoxBkgColor: '#2a2a2a',
+        labelBoxBorderColor: '#ffffff',
+        noteBkgColor: '#3a3a3a',
+        noteTextColor: '#ffffff',
+        noteBorderColor: '#ffffff',
+        activationBorderColor: '#ffffff',
+        activationBkgColor: '#3a3a3a',
+        sequenceNumberColor: '#000000',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+        fontSize: '16px',
+        darkMode: true,
+        flowchart: {
+          htmlLabels: true,
+          curve: 'basis',
+          rankSpacing: 50,
+          nodeSpacing: 30,
+          padding: 15,
+          useMaxWidth: true
+        }
+      }
+    });
+  </script></body></html>
