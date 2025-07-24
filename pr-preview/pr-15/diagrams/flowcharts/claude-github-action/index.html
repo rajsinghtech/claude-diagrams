@@ -1,0 +1,99 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Claude GitHub Action Workflow | Claude Diagrams</title>
+<meta name=generator content="Hugo 0.121.2"><link rel=stylesheet href=/claude-diagrams/pr-preview/pr-15/css/main.min.6031f18919a5919243f3aef7c58df672be3052a45dd4517b8fc728761fda4de4.css></head><body><main><article class=diagram-single><header class=diagram-header><h1>Claude GitHub Action Workflow</h1><p class=description>How the Claude GitHub Action processes issue comments and updates diagrams</p><div class=metadata><time>January 24, 2025</time><div class=tags><a href=/claude-diagrams/pr-preview/pr-15/tags/github-actions/ class=tag>#github-actions</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/automation/ class=tag>#automation</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/claude/ class=tag>#claude</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/ci-cd/ class=tag>#ci-cd</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/workflow/ class=tag>#workflow</a></div></div></header><div class=diagram-container></div><div class=diagram-description><p>This diagram illustrates how the Claude GitHub Action workflow processes issue comments and updates diagrams in the repository.</p><div class=mermaid-wrapper><pre class=mermaid>flowchart TD
+    A[User creates issue comment with @claude] --> B{Comment contains @claude?}
+    B -->|No| C[Action ignored]
+    B -->|Yes| D[GitHub Action triggered]
+    
+    D --> E[Extract comment content]
+    E --> F[Send request to Claude API]
+    
+    F --> G{Claude generates response}
+    G -->|Diagram update request| H[Claude modifies SVG files]
+    G -->|Code changes| I[Claude updates code files]
+    G -->|Information only| J[Claude posts comment reply]
+    
+    H --> K[Create new branch]
+    I --> K
+    K --> L[Commit changes]
+    L --> M[Create pull request]
+    
+    M --> N[Post PR link as comment]
+    J --> O[End workflow]
+    N --> O
+    
+    subgraph "GitHub Action Environment"
+        D
+        E
+        K
+        L
+        M
+    end
+    
+    subgraph "Claude API Processing"
+        F
+        G
+        H
+        I
+        J
+    end
+    
+    style A fill:#2196f3,stroke:#000,stroke-width:2px,color:#fff
+    style O fill:#4caf50,stroke:#000,stroke-width:2px,color:#fff
+    style C fill:#f44336,stroke:#000,stroke-width:2px,color:#fff
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=key-components>Key Components</h2><ol><li><strong>Trigger</strong>: User mentions <code>@claude</code> in an issue comment</li><li><strong>GitHub Action</strong>: Processes the comment and orchestrates the workflow</li><li><strong>Claude API</strong>: Analyzes the request and generates appropriate responses</li><li><strong>Version Control</strong>: Creates branches and pull requests for changes</li><li><strong>Feedback Loop</strong>: Posts PR links or responses back to the issue</li></ol><h2 id=workflow-steps>Workflow Steps</h2><ol><li>User creates an issue comment mentioning <code>@claude</code></li><li>GitHub Action checks if the comment contains the trigger</li><li>Comment content is extracted and sent to Claude API</li><li>Claude analyzes the request and determines the action type</li><li>For file changes, a new branch is created</li><li>Changes are committed and a pull request is opened</li><li>The PR link is posted back to the original issue</li></ol></div></article><style>.diagram-single{max-width:1200px;margin:0 auto;padding:2rem}.diagram-header{margin-bottom:2rem;text-align:center}.diagram-header h1{font-size:2.5rem;margin-bottom:1rem}.description{font-size:1.2rem;color:var(--text-secondary);margin-bottom:1rem}.metadata{display:flex;justify-content:center;align-items:center;gap:2rem;color:var(--text-secondary);font-size:.9rem}.tags{display:flex;gap:.5rem}.tag{background:var(--bg-secondary);padding:.25rem .75rem;border-radius:9999px;text-decoration:none;color:var(--text-secondary);transition:all .3s}.tag:hover{background:var(--accent);color:#fff}.diagram-container{background:var(--bg-secondary);border-radius:8px;padding:2rem;margin:2rem 0;overflow:auto}.svg-wrapper{display:flex;justify-content:center;align-items:center;min-height:400px}.svg-wrapper svg{max-width:100%;height:auto}.diagram-description{margin-top:2rem;font-size:1.1rem;line-height:1.8}</style></main><script type=module>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1a1a1a',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#ffffff',
+        lineColor: '#ffffff',
+        secondaryColor: '#2196f3',
+        tertiaryColor: '#4caf50',
+        background: '#1a1a1a',
+        mainBkg: '#2a2a2a',
+        secondBkg: '#2196f3',
+        tertiaryBkg: '#4caf50',
+        secondaryBorderColor: '#ffffff',
+        tertiaryBorderColor: '#ffffff',
+        secondaryTextColor: '#ffffff',
+        tertiaryTextColor: '#ffffff',
+        edgeLabelBackground: '#2a2a2a',
+        nodeTextColor: '#ffffff',
+        textColor: '#ffffff',
+        titleColor: '#ffffff',
+        labelTextColor: '#ffffff',
+        actorBorder: '#ffffff',
+        actorBkg: '#2a2a2a',
+        actorTextColor: '#ffffff',
+        actorLineColor: '#ffffff',
+        signalColor: '#ffffff',
+        signalTextColor: '#ffffff',
+        labelBoxBkgColor: '#2a2a2a',
+        labelBoxBorderColor: '#ffffff',
+        noteBkgColor: '#3a3a3a',
+        noteTextColor: '#ffffff',
+        noteBorderColor: '#ffffff',
+        activationBorderColor: '#ffffff',
+        activationBkgColor: '#3a3a3a',
+        sequenceNumberColor: '#000000',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+        fontSize: '16px',
+        darkMode: true,
+        flowchart: {
+          htmlLabels: true,
+          curve: 'basis',
+          rankSpacing: 50,
+          nodeSpacing: 30,
+          padding: 15,
+          useMaxWidth: true
+        }
+      }
+    });
+  </script></body></html>

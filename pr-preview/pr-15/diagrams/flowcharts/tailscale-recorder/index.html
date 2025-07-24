@@ -1,0 +1,101 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Tailscale Recorder Flow | Claude Diagrams</title>
+<meta name=generator content="Hugo 0.121.2"><link rel=stylesheet href=/claude-diagrams/pr-preview/pr-15/css/main.min.6031f18919a5919243f3aef7c58df672be3052a45dd4517b8fc728761fda4de4.css></head><body><main><article class=diagram-single><header class=diagram-header><h1>Tailscale Recorder Flow</h1><p class=description>Session recording and audit trail flow for SSH connections in Tailscale</p><div class=metadata><time>July 24, 2025</time><div class=tags><a href=/claude-diagrams/pr-preview/pr-15/tags/tailscale/ class=tag>#tailscale</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/recording/ class=tag>#recording</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/ssh/ class=tag>#ssh</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/audit/ class=tag>#audit</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/compliance/ class=tag>#compliance</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/security/ class=tag>#security</a>
+<a href=/claude-diagrams/pr-preview/pr-15/tags/session-recording/ class=tag>#session-recording</a></div></div></header><div class=diagram-container></div><div class=diagram-description><p>The Tailscale Recorder enables organizations to record SSH sessions for audit and compliance purposes. This diagram illustrates the complete flow from session initiation to playback.</p><h2 id=overview>Overview</h2><p>Tailscale&rsquo;s session recording feature provides:</p><ul><li>Real-time SSH session recording</li><li>Secure storage of session data</li><li>Playback capabilities for audit review</li><li>Integration with existing compliance workflows</li></ul><h2 id=key-components>Key Components</h2><ul><li><strong>SSH Client</strong>: User&rsquo;s terminal or SSH application</li><li><strong>Tailscale Node</strong>: The target machine with recording enabled</li><li><strong>Recorder Service</strong>: Handles session capture and streaming</li><li><strong>Storage Backend</strong>: Secure storage for recorded sessions</li><li><strong>Audit Console</strong>: Interface for reviewing recorded sessions</li></ul><h2 id=recording-flow>Recording Flow</h2><div class=mermaid-wrapper><pre class=mermaid>graph TD
+    %% Define nodes with descriptive labels
+    User[SSH User] --> SSHClient[SSH Client]
+    SSHClient -->|Tailscale SSH| TSNode[Tailscale Node]
+    
+    TSNode --> RecCheck{Recording<br>Enabled?}
+    RecCheck -->|No| DirectSSH[Direct SSH Session]
+    RecCheck -->|Yes| RecorderInit[Initialize Recorder]
+    
+    RecorderInit --> SessionStart[Start Session Recording]
+    SessionStart --> PTY[PTY Allocation]
+    PTY --> DataCapture[Capture I/O Streams]
+    
+    DataCapture --> Multiplexer[Stream Multiplexer]
+    Multiplexer -->|Live Session| SSHSession[SSH Session]
+    Multiplexer -->|Recording Stream| Encoder[Session Encoder]
+    
+    Encoder --> Compression[Compress Data]
+    Compression --> Encryption[Encrypt Recording]
+    Encryption --> Storage[(Storage Backend)]
+    
+    %% Metadata flow
+    SessionStart --> Metadata[Collect Metadata]
+    Metadata --> MetaStore[(Metadata Store)]
+    
+    %% Playback flow
+    Storage -->|Playback Request| AuditConsole[Audit Console]
+    MetaStore -->|Session Info| AuditConsole
+    AuditConsole --> Decrypt[Decrypt Recording]
+    Decrypt --> Decompress[Decompress Data]
+    Decompress --> Player[Session Player]
+    
+    %% Apply Tailscale color scheme
+    style User fill:#2196f3,stroke:#fff,stroke-width:2px,color:#fff
+    style SSHClient fill:#607d8b,stroke:#fff,stroke-width:2px,color:#fff
+    style TSNode fill:#4caf50,stroke:#fff,stroke-width:2px,color:#fff
+    style RecCheck fill:#ff9800,stroke:#fff,stroke-width:2px,color:#fff
+    style Storage fill:#2196f3,stroke:#fff,stroke-width:2px,color:#fff
+    style MetaStore fill:#2196f3,stroke:#fff,stroke-width:2px,color:#fff
+    style AuditConsole fill:#607d8b,stroke:#fff,stroke-width:2px,color:#fff
+    style Player fill:#4caf50,stroke:#fff,stroke-width:2px,color:#fff
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=recording-details>Recording Details</h2><h3 id=session-metadata>Session Metadata</h3><p>The recorder captures comprehensive metadata for each session:</p><ul><li>User identity and authentication method</li><li>Source IP and Tailscale node information</li><li>Timestamp and duration</li><li>Commands executed</li><li>File transfers</li></ul><h3 id=security-features>Security Features</h3><ul><li>End-to-end encryption of recorded data</li><li>Access controls for playback permissions</li><li>Tamper-proof session integrity</li><li>Automatic retention policies</li></ul><h3 id=storage-options>Storage Options</h3><p>Organizations can configure storage backends:</p><ul><li>Local filesystem (for testing)</li><li>Cloud object storage (S3, GCS, Azure Blob)</li><li>Compliance-certified storage solutions</li><li>Custom storage integrations</li></ul><h2 id=compliance-benefits>Compliance Benefits</h2><p>The Tailscale Recorder helps organizations meet various compliance requirements:</p><ul><li><strong>SOC 2</strong>: Audit trail for privileged access</li><li><strong>PCI DSS</strong>: Recording of administrative sessions</li><li><strong>HIPAA</strong>: Access logging for systems containing PHI</li><li><strong>ISO 27001</strong>: Evidence of access controls</li></ul></div></article><style>.diagram-single{max-width:1200px;margin:0 auto;padding:2rem}.diagram-header{margin-bottom:2rem;text-align:center}.diagram-header h1{font-size:2.5rem;margin-bottom:1rem}.description{font-size:1.2rem;color:var(--text-secondary);margin-bottom:1rem}.metadata{display:flex;justify-content:center;align-items:center;gap:2rem;color:var(--text-secondary);font-size:.9rem}.tags{display:flex;gap:.5rem}.tag{background:var(--bg-secondary);padding:.25rem .75rem;border-radius:9999px;text-decoration:none;color:var(--text-secondary);transition:all .3s}.tag:hover{background:var(--accent);color:#fff}.diagram-container{background:var(--bg-secondary);border-radius:8px;padding:2rem;margin:2rem 0;overflow:auto}.svg-wrapper{display:flex;justify-content:center;align-items:center;min-height:400px}.svg-wrapper svg{max-width:100%;height:auto}.diagram-description{margin-top:2rem;font-size:1.1rem;line-height:1.8}</style></main><script type=module>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1a1a1a',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#ffffff',
+        lineColor: '#ffffff',
+        secondaryColor: '#2196f3',
+        tertiaryColor: '#4caf50',
+        background: '#1a1a1a',
+        mainBkg: '#2a2a2a',
+        secondBkg: '#2196f3',
+        tertiaryBkg: '#4caf50',
+        secondaryBorderColor: '#ffffff',
+        tertiaryBorderColor: '#ffffff',
+        secondaryTextColor: '#ffffff',
+        tertiaryTextColor: '#ffffff',
+        edgeLabelBackground: '#2a2a2a',
+        nodeTextColor: '#ffffff',
+        textColor: '#ffffff',
+        titleColor: '#ffffff',
+        labelTextColor: '#ffffff',
+        actorBorder: '#ffffff',
+        actorBkg: '#2a2a2a',
+        actorTextColor: '#ffffff',
+        actorLineColor: '#ffffff',
+        signalColor: '#ffffff',
+        signalTextColor: '#ffffff',
+        labelBoxBkgColor: '#2a2a2a',
+        labelBoxBorderColor: '#ffffff',
+        noteBkgColor: '#3a3a3a',
+        noteTextColor: '#ffffff',
+        noteBorderColor: '#ffffff',
+        activationBorderColor: '#ffffff',
+        activationBkgColor: '#3a3a3a',
+        sequenceNumberColor: '#000000',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+        fontSize: '16px',
+        darkMode: true,
+        flowchart: {
+          htmlLabels: true,
+          curve: 'basis',
+          rankSpacing: 50,
+          nodeSpacing: 30,
+          padding: 15,
+          useMaxWidth: true
+        }
+      }
+    });
+  </script></body></html>
