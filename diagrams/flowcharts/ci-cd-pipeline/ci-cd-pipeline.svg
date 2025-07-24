@@ -1,77 +1,155 @@
-<svg width="800" height="900" xmlns="http://www.w3.org/2000/svg">
-  <rect width="800" height="900" fill="#fafafa"/>
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" fill="#FFFFFF"/>
   
   <!-- Title -->
-  <text x="400" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold">CI/CD Pipeline Flow</text>
+  <text x="600" y="40" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#000000">CI/CD Pipeline Flow</text>
   
-  <!-- Start -->
-  <ellipse cx="400" cy="80" rx="60" ry="30" fill="#4caf50" stroke="#388e3c" stroke-width="2"/>
-  <text x="400" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">Start</text>
+  <!-- Main Pipeline Flow -->
   
-  <!-- Code Commit -->
-  <rect x="300" y="140" width="200" height="60" fill="#2196f3" stroke="#1976d2" stroke-width="2" rx="5"/>
-  <text x="400" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Code Commit</text>
+  <!-- Start Node -->
+  <g transform="translate(600, 100)">
+    <circle r="30" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Start</text>
+  </g>
   
-  <!-- Build -->
-  <rect x="300" y="240" width="200" height="60" fill="#ff9800" stroke="#f57c00" stroke-width="2" rx="5"/>
-  <text x="400" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Build Application</text>
+  <!-- Source Control -->
+  <g transform="translate(600, 180)">
+    <rect x="-100" y="-25" width="200" height="50" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Source Control</text>
+  </g>
+  
+  <!-- Build Stage -->
+  <g transform="translate(600, 280)">
+    <rect x="-100" y="-25" width="200" height="50" fill="#F5F5F5" stroke="#000000" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Build</text>
+  </g>
   
   <!-- Unit Tests -->
-  <rect x="300" y="340" width="200" height="60" fill="#9c27b0" stroke="#7b1fa2" stroke-width="2" rx="5"/>
-  <text x="400" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Run Unit Tests</text>
+  <g transform="translate(600, 380)">
+    <rect x="-100" y="-25" width="200" height="50" fill="#F5F5F5" stroke="#000000" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Unit Tests</text>
+  </g>
   
-  <!-- Decision: Tests Pass? -->
-  <g transform="translate(400, 460)">
-    <path d="M 0 -40 L 60 0 L 0 40 L -60 0 Z" fill="#f44336" stroke="#d32f2f" stroke-width="2"/>
-    <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Tests Pass?</text>
+  <!-- Test Decision -->
+  <g transform="translate(600, 480)">
+    <path d="M 0 -30 L 40 0 L 0 30 L -40 0 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#000000">Pass?</text>
   </g>
   
   <!-- Integration Tests -->
-  <rect x="300" y="540" width="200" height="60" fill="#3f51b5" stroke="#303f9f" stroke-width="2" rx="5"/>
-  <text x="400" y="575" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Integration Tests</text>
+  <g transform="translate(600, 580)">
+    <rect x="-100" y="-25" width="200" height="50" fill="#F5F5F5" stroke="#000000" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Integration Tests</text>
+  </g>
   
-  <!-- Deploy to Staging -->
-  <rect x="300" y="640" width="200" height="60" fill="#00bcd4" stroke="#0097a7" stroke-width="2" rx="5"/>
-  <text x="400" y="675" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Deploy to Staging</text>
+  <!-- Deploy Staging -->
+  <g transform="translate(600, 680)">
+    <rect x="-100" y="-25" width="200" height="50" fill="#FFFFFF" stroke="#2196F3" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Deploy Staging</text>
+  </g>
   
-  <!-- Deploy to Production -->
-  <rect x="300" y="740" width="200" height="60" fill="#4caf50" stroke="#388e3c" stroke-width="2" rx="5"/>
-  <text x="400" y="775" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Deploy to Production</text>
+  <!-- Deploy Production -->
+  <g transform="translate(600, 780)">
+    <rect x="-100" y="-25" width="200" height="50" fill="#FFFFFF" stroke="#4CAF50" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Deploy Production</text>
+  </g>
   
-  <!-- End -->
-  <ellipse cx="400" cy="850" rx="60" ry="30" fill="#607d8b" stroke="#455a64" stroke-width="2"/>
-  <text x="400" y="857" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">End</text>
+  <!-- End Node -->
+  <g transform="translate(600, 860)">
+    <circle r="30" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">End</text>
+  </g>
   
   <!-- Failure Path -->
-  <rect x="100" y="430" width="150" height="60" fill="#f44336" stroke="#d32f2f" stroke-width="2" rx="5"/>
-  <text x="175" y="465" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Notify Team</text>
+  <g transform="translate(350, 480)">
+    <rect x="-80" y="-25" width="160" height="50" fill="#FFFFFF" stroke="#F44336" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Alert Team</text>
+  </g>
+  
+  <!-- Rollback -->
+  <g transform="translate(150, 480)">
+    <rect x="-60" y="-25" width="120" height="50" fill="#FFFFFF" stroke="#F44336" stroke-width="2"/>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000000">Rollback</text>
+  </g>
+  
+  <!-- Side Components -->
+  
+  <!-- Version Control -->
+  <g transform="translate(150, 180)">
+    <rect x="-80" y="-40" width="160" height="80" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+    <text y="-15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#000000">Git Repository</text>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Branches</text>
+    <text y="20" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Pull Requests</text>
+  </g>
+  
+  <!-- Build Tools -->
+  <g transform="translate(950, 280)">
+    <rect x="-80" y="-40" width="160" height="80" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+    <text y="-15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#000000">Build Tools</text>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Compile</text>
+    <text y="20" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Package</text>
+  </g>
+  
+  <!-- Test Reports -->
+  <g transform="translate(950, 480)">
+    <rect x="-80" y="-40" width="160" height="80" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+    <text y="-15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#000000">Test Reports</text>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Coverage</text>
+    <text y="20" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Results</text>
+  </g>
+  
+  <!-- Monitoring -->
+  <g transform="translate(950, 780)">
+    <rect x="-80" y="-40" width="160" height="80" fill="#F5F5F5" stroke="#000000" stroke-width="1"/>
+    <text y="-15" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#000000">Monitoring</text>
+    <text y="5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Metrics</text>
+    <text y="20" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#64748B">• Alerts</text>
+  </g>
   
   <!-- Arrows -->
   <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 4 L 0 8 Z" fill="#000000"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 4 L 0 8 Z" fill="#F44336"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 4 L 0 8 Z" fill="#4CAF50"/>
     </marker>
   </defs>
   
-  <!-- Flow connections -->
-  <line x1="400" y1="110" x2="400" y2="140" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="400" y1="200" x2="400" y2="240" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="400" y1="300" x2="400" y2="340" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="400" y1="400" x2="400" y2="420" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <!-- Main Flow Arrows -->
+  <line x1="600" y1="130" x2="600" y2="155" stroke="#000000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="205" x2="600" y2="255" stroke="#000000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="305" x2="600" y2="355" stroke="#000000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="405" x2="600" y2="450" stroke="#000000" stroke-width="2" marker-end="url(#arrowhead)"/>
   
-  <!-- Yes path -->
-  <line x1="400" y1="500" x2="400" y2="540" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="420" y="520" font-family="Arial, sans-serif" font-size="12" fill="#4caf50">Yes</text>
+  <!-- Success Path -->
+  <line x1="600" y1="510" x2="600" y2="555" stroke="#4CAF50" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <text x="615" y="535" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#4CAF50">Pass</text>
   
-  <!-- No path -->
-  <line x1="340" y1="460" x2="250" y2="460" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <text x="290" y="455" font-family="Arial, sans-serif" font-size="12" fill="#f44336">No</text>
+  <!-- Failure Path -->
+  <path d="M 560 480 L 430 480" stroke="#F44336" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+  <text x="480" y="475" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#F44336">Fail</text>
   
-  <!-- Continue flow -->
-  <line x1="400" y1="600" x2="400" y2="640" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="400" y1="700" x2="400" y2="740" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="400" y1="800" x2="400" y2="820" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <!-- From Alert to Rollback -->
+  <line x1="270" y1="480" x2="210" y2="480" stroke="#F44336" stroke-width="2" marker-end="url(#arrowhead-red)"/>
   
-  <!-- Failure to End -->
-  <path d="M 175 490 L 175 850 L 340 850" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="5,5"/>
+  <!-- Continue Main Flow -->
+  <line x1="600" y1="605" x2="600" y2="655" stroke="#000000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="705" x2="600" y2="755" stroke="#000000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="805" x2="600" y2="830" stroke="#000000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Side Component Connections -->
+  <path d="M 230 180 L 500 180" stroke="#000000" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>
+  <path d="M 700 280 L 870 280" stroke="#000000" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>
+  <path d="M 640 480 L 870 480" stroke="#000000" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>
+  <path d="M 700 780 L 870 780" stroke="#000000" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>
+  
+  <!-- Stage Labels -->
+  <text x="50" y="100" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#64748B">INITIATION</text>
+  <text x="50" y="280" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#64748B">BUILD</text>
+  <text x="50" y="480" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#64748B">TEST</text>
+  <text x="50" y="680" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#64748B">DEPLOY</text>
 </svg>
