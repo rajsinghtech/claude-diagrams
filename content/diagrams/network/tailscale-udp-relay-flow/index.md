@@ -1,5 +1,5 @@
 ---
-title: "Tailscale UDP Peer Relay Flow"
+title: "Basic DERP Relay Flow"
 description: "Visualizing how Tailscale uses DERP servers for UDP relay and connection establishment"
 date: 2025-07-24
 categories: ["network"]
@@ -8,7 +8,7 @@ tags: ["tailscale", "derp", "udp", "relay", "nat-traversal", "mesh-vpn", "p2p"]
 
 ## Overview
 
-This diagram illustrates the basic UDP peer relay flow in Tailscale, showing how DERP (Designated Encrypted Relay Points) servers facilitate connection establishment and serve as fallback relays when direct peer-to-peer connections are not possible.
+This diagram illustrates the basic DERP relay flow in Tailscale, showing how DERP (Designated Encrypted Relay Points) servers facilitate connection establishment and serve as fallback relays when direct peer-to-peer connections are not possible.
 
 ```mermaid
 graph TD
