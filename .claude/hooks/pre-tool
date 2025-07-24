@@ -1,8 +1,54 @@
 #!/bin/bash
 # Pre-tool hook for claude-diagrams project
-# Prevents accidental modifications to generated files
+# Prevents accidental modifications to generated files and validates SVG content
 
 set -e
+
+# Function to validate SVG content
+validate_svg_content() {
+    local content="$1"
+    local file_path="$2"
+    local errors=0
+    
+    echo "🎨 Pre-validating SVG content for: $file_path"
+    
+    # Create a temporary file for validation
+    local temp_file=$(mktemp /tmp/svg_validate.XXXXXX.svg)
+    echo "$content" > "$temp_file"
+    
+    # 1. XML syntax validation
+    if command -v xmllint > /dev/null 2>&1; then
+        echo "🔍 Checking XML syntax..."
+        if ! xmllint --noout "$temp_file" 2>&1; then
+            echo "❌ XML syntax error detected"
+            echo "   Fix: Ensure all special characters are properly escaped:"
+            echo "   - Use &amp; instead of &"
+            echo "   - Use &lt; instead of <"
+            echo "   - Use &gt; instead of >"
+            echo "   - Use &quot; instead of \" in attributes"
+            errors=$((errors + 1))
+        fi
+    fi
+    
+    # 2. Check for viewBox
+    if ! echo "$content" | grep -q 'viewBox='; then
+        echo "❌ Missing viewBox attribute"
+        echo "   Fix: Add viewBox=\"0 0 width height\" to the <svg> tag"
+        errors=$((errors + 1))
+    fi
+    
+    # 3. Check for required namespaces
+    if ! echo "$content" | grep -q 'xmlns="http://www.w3.org/2000/svg"'; then
+        echo "❌ Missing SVG namespace"
+        echo "   Fix: Add xmlns=\"http://www.w3.org/2000/svg\" to the <svg> tag"
+        errors=$((errors + 1))
+    fi
+    
+    # Clean up
+    rm -f "$temp_file"
+    
+    return $errors
+}
 
 # Check for operations on public directory
 if [[ "$TOOL_NAME" =~ ^(Write|Edit|MultiEdit|Bash)$ ]]; then
@@ -45,6 +91,38 @@ if [[ "$TOOL_NAME" == "Bash" && "$COMMAND" =~ git\ config ]]; then
     echo "❌ Error: Git config modifications are not allowed"
     echo "   This restriction is defined in CLAUDE.md"
     exit 1
+fi
+
+# Validate SVG content before writing
+if [[ "$TOOL_NAME" == "Write" && "$FILE_PATH" =~ \.svg$ ]]; then
+    # Extract content from the Write tool parameters
+    if [[ -n "$CONTENT" ]]; then
+        if ! validate_svg_content "$CONTENT" "$FILE_PATH"; then
+            echo ""
+            echo "❌ SVG validation failed. File will not be created."
+            echo "📝 Please fix the errors above and try again."
+            exit 1
+        fi
+        echo "✅ SVG pre-validation passed"
+    fi
+fi
+
+# For Edit/MultiEdit operations on SVG files, we can't validate the full content
+# but we can check for common issues in the edits
+if [[ ("$TOOL_NAME" == "Edit" || "$TOOL_NAME" == "MultiEdit") && "$FILE_PATH" =~ \.svg$ ]]; then
+    # Check for unescaped ampersands in new content
+    if [[ -n "$NEW_STRING" ]] && echo "$NEW_STRING" | grep -E '&[^a-zA-Z#0-9]+|&$' > /dev/null; then
+        echo "❌ Error: Unescaped ampersand (&) detected in new content"
+        echo "   Fix: Use &amp; instead of &"
+        echo "   Found in: $NEW_STRING"
+        exit 1
+    fi
+    
+    # Check for unescaped less-than in text content
+    if [[ -n "$NEW_STRING" ]] && echo "$NEW_STRING" | grep '>[^<]*<[^/]' > /dev/null; then
+        echo "⚠️  Warning: Possible unescaped < in text content"
+        echo "   If this is text content, use &lt; instead of <"
+    fi
 fi
 
 exit 0

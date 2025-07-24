@@ -68,7 +68,7 @@ graph LR
 - Avoid technical jargon unless necessary
 
 #### Color Usage in Mermaid
-Apply the same color scheme as SVG diagrams:
+Apply the same color scheme as SVG diagrams with proper contrast:
 ```mermaid
 graph TD
     A[Start] --> B[Process]
@@ -76,10 +76,20 @@ graph TD
     C -->|Success| D[Success State]
     C -->|Error| E[Error State]
     
-    style A fill:#2196f3,stroke:#fff,stroke-width:2px,color:#fff
-    style D fill:#4caf50,stroke:#fff,stroke-width:2px,color:#fff
-    style E fill:#f44336,stroke:#fff,stroke-width:2px,color:#fff
+    style A fill:#1976d2,stroke:#fff,stroke-width:2px,color:#fff
+    style D fill:#388e3c,stroke:#fff,stroke-width:2px,color:#fff
+    style E fill:#d32f2f,stroke:#fff,stroke-width:2px,color:#fff
 ```
+
+**Important: Ensure sufficient contrast for readability**
+- Use darker shades for fills to ensure white text is readable:
+  - Primary blue: Use #1976d2 instead of #2196f3
+  - Success green: Use #388e3c instead of #4caf50
+  - Warning orange: Use #f57c00 instead of #ff9800
+  - Error red: Use #d32f2f instead of #f44336
+  - Neutral grey: Use #455a64 instead of #607d8b
+- Always use white text (color:#fff) on colored backgrounds
+- For light backgrounds (#f5f5f5 or lighter), use black text (color:#000)
 
 #### Flowchart Best Practices
 1. **Start/End nodes**: Use rounded rectangles

@@ -47,9 +47,9 @@ flowchart TD
         J
     end
     
-    style A fill:#2196f3,stroke:#000,stroke-width:2px,color:#fff
-    style O fill:#4caf50,stroke:#000,stroke-width:2px,color:#fff
-    style C fill:#f44336,stroke:#000,stroke-width:2px,color:#fff
+    style A fill:#1976d2,stroke:#000,stroke-width:2px,color:#fff
+    style O fill:#388e3c,stroke:#000,stroke-width:2px,color:#fff
+    style C fill:#d32f2f,stroke:#000,stroke-width:2px,color:#fff
 ```
 
 ## Key Components

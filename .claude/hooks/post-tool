@@ -1,6 +1,6 @@
 #!/bin/bash
 # Post-tool hook for claude-diagrams project
-# Validates SVG files after Write/Edit/MultiEdit operations
+# Performs additional validation on SVG files after Write/Edit/MultiEdit operations
 
 set -e
 
@@ -14,7 +14,7 @@ if [[ ! "$FILE_PATH" =~ \.svg$ ]]; then
     exit 0
 fi
 
-echo "🎨 Validating SVG file: $FILE_PATH"
+echo "🎨 Post-validation for SVG file: $FILE_PATH"
 
 # Check if file exists
 if [ ! -f "$FILE_PATH" ]; then
@@ -24,16 +24,20 @@ fi
 
 # Run validation checks
 errors=0
+warnings=0
 
-# 1. XML syntax validation using xmllint
-if command -v xmllint > /dev/null 2>&1; then
-    echo "🔍 Checking XML syntax..."
-    if ! xmllint --noout "$FILE_PATH" 2>&1; then
-        echo "❌ XML syntax error detected"
-        errors=$((errors + 1))
+# Since pre-tool hook handles XML syntax validation for Write operations,
+# we only need to validate for Edit/MultiEdit operations
+if [[ "$TOOL_NAME" == "Edit" || "$TOOL_NAME" == "MultiEdit" ]]; then
+    # 1. XML syntax validation using xmllint
+    if command -v xmllint > /dev/null 2>&1; then
+        echo "🔍 Checking XML syntax after edit..."
+        if ! xmllint --noout "$FILE_PATH" 2>&1; then
+            echo "❌ XML syntax error detected after edit"
+            echo "   This likely means the edit introduced invalid XML"
+            errors=$((errors + 1))
+        fi
     fi
-else
-    echo "⚠️  Warning: xmllint not found, skipping XML syntax validation"
 fi
 
 # 3. Check for viewBox attribute
@@ -50,10 +54,10 @@ fi
 
 # 5. Check color compliance for Tailscale diagrams
 if [[ "$FILE_PATH" =~ /tailscale|/tailnet|/acl|/exit-node|/subnet ]]; then
-    # Check for non-standard colors
-    if grep -E 'fill="#|stroke="#' "$FILE_PATH" | grep -vE '#000000|#FFFFFF|#F5F5F5|#E3F2FD|#2196F3|#4CAF50|#FF9800|#F44336|#607D8B|#374151|#64748B|#9CA3AF|#6B7280|#E5E7EB|#FFC107' > /dev/null; then
+    # Check for non-standard colors (excluding gradients and filters)
+    if grep -E 'fill="#|stroke="#' "$FILE_PATH" | grep -v 'linearGradient\|filter\|stop-color' | grep -vE '#000000|#FFFFFF|#F5F5F5|#E3F2FD|#2196F3|#4CAF50|#FF9800|#F44336|#607D8B|#374151|#64748B|#9CA3AF|#6B7280|#E5E7EB|#FFC107|#1976d2|#388e3c|#f57c00|#9c27b0|#e8f5e9|#fff3e0|#eceff1|#f3e5f5|#f9fafb' > /dev/null; then
         echo "⚠️  Warning: Non-standard colors detected in Tailscale diagram"
-        echo "   Allowed colors: #000000, #FFFFFF, #F5F5F5, #E3F2FD, #2196F3, #4CAF50, #FF9800, #F44336, #607D8B, #374151, #64748B, #9CA3AF, #6B7280, #E5E7EB, #FFC107"
+        warnings=$((warnings + 1))
     fi
 fi
 
@@ -70,8 +74,10 @@ if [ ! -f "$index_file" ]; then
 fi
 
 if [ $errors -gt 0 ]; then
-    echo "❌ SVG validation failed with $errors error(s)"
+    echo "❌ Post-validation failed with $errors error(s)"
     exit 1
+elif [ $warnings -gt 0 ]; then
+    echo "✅ Post-validation passed with $warnings warning(s)"
+else
+    echo "✅ Post-validation passed"
 fi
-
-echo "✅ SVG validation passed"
