@@ -1,11 +1,11 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Tailscale UDP Peer Relay Flow | Claude Diagrams</title>
-<meta name=generator content="Hugo 0.121.2"><link rel=stylesheet href=/claude-diagrams/pr-preview/pr-17/css/main.min.6031f18919a5919243f3aef7c58df672be3052a45dd4517b8fc728761fda4de4.css></head><body><main><article class=diagram-single><header class=diagram-header><h1>Tailscale UDP Peer Relay Flow</h1><p class=description>Visualizing how Tailscale uses DERP servers for UDP relay and connection establishment</p><div class=metadata><time>July 24, 2025</time><div class=tags><a href=/claude-diagrams/pr-preview/pr-17/tags/tailscale/ class=tag>#tailscale</a>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Basic DERP Relay Flow | Claude Diagrams</title>
+<meta name=generator content="Hugo 0.121.2"><link rel=stylesheet href=/claude-diagrams/pr-preview/pr-17/css/main.min.6031f18919a5919243f3aef7c58df672be3052a45dd4517b8fc728761fda4de4.css></head><body><main><article class=diagram-single><header class=diagram-header><h1>Basic DERP Relay Flow</h1><p class=description>Visualizing how Tailscale uses DERP servers for UDP relay and connection establishment</p><div class=metadata><time>July 24, 2025</time><div class=tags><a href=/claude-diagrams/pr-preview/pr-17/tags/tailscale/ class=tag>#tailscale</a>
 <a href=/claude-diagrams/pr-preview/pr-17/tags/derp/ class=tag>#derp</a>
 <a href=/claude-diagrams/pr-preview/pr-17/tags/udp/ class=tag>#udp</a>
 <a href=/claude-diagrams/pr-preview/pr-17/tags/relay/ class=tag>#relay</a>
 <a href=/claude-diagrams/pr-preview/pr-17/tags/nat-traversal/ class=tag>#nat-traversal</a>
 <a href=/claude-diagrams/pr-preview/pr-17/tags/mesh-vpn/ class=tag>#mesh-vpn</a>
-<a href=/claude-diagrams/pr-preview/pr-17/tags/p2p/ class=tag>#p2p</a></div></div></header><div class=diagram-container></div><div class=diagram-description><h2 id=overview>Overview</h2><p>This diagram illustrates the basic UDP peer relay flow in Tailscale, showing how DERP (Designated Encrypted Relay Points) servers facilitate connection establishment and serve as fallback relays when direct peer-to-peer connections are not possible.</p><div class=mermaid-wrapper><pre class=mermaid>graph TD
+<a href=/claude-diagrams/pr-preview/pr-17/tags/p2p/ class=tag>#p2p</a></div></div></header><div class=diagram-container></div><div class=diagram-description><h2 id=overview>Overview</h2><p>This diagram illustrates the basic DERP relay flow in Tailscale, showing how DERP (Designated Encrypted Relay Points) servers facilitate connection establishment and serve as fallback relays when direct peer-to-peer connections are not possible.</p><div class=mermaid-wrapper><pre class=mermaid>graph TD
     subgraph "Node A Network"
         NodeA[Node A<br>100.64.1.10<br>Behind NAT]
     end
