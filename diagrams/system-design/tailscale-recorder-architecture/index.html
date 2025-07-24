@@ -1,0 +1,232 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Tailscale Session Recorder Architecture | Claude Diagrams</title>
+<meta name=generator content="Hugo 0.121.2"><link rel=stylesheet href=/claude-diagrams/css/main.min.6031f18919a5919243f3aef7c58df672be3052a45dd4517b8fc728761fda4de4.css></head><body><main><article class=diagram-single><header class=diagram-header><h1>Tailscale Session Recorder Architecture</h1><p class=description>Comprehensive diagram showing how Tailscale SSH session recording works, including data flow, components, and storage options</p><div class=metadata><time>January 24, 2025</time><div class=tags><a href=/claude-diagrams/tags/tailscale/ class=tag>#tailscale</a>
+<a href=/claude-diagrams/tags/ssh/ class=tag>#ssh</a>
+<a href=/claude-diagrams/tags/session-recording/ class=tag>#session-recording</a>
+<a href=/claude-diagrams/tags/security/ class=tag>#security</a>
+<a href=/claude-diagrams/tags/compliance/ class=tag>#compliance</a>
+<a href=/claude-diagrams/tags/tsrecorder/ class=tag>#tsrecorder</a>
+<a href=/claude-diagrams/tags/asciinema/ class=tag>#asciinema</a></div></div></header><div class=diagram-container></div><div class=diagram-description><h2 id=overview>Overview</h2><p>This diagram illustrates the architecture and data flow of Tailscale&rsquo;s SSH session recording feature, showing how terminal sessions are captured, streamed, and stored securely within a tailnet.</p><div class=mermaid-wrapper><pre class=mermaid>graph TB
+    subgraph "User Workstation"
+        U[User] -->|SSH Connection| TC[Tailscale Client]
+    end
+    
+    subgraph "Tailscale SSH Server Node"
+        TC -->|WireGuard Tunnel| TS[Tailscale SSH Server]
+        TS --> SR[Session Recorder Client]
+        SR --> TIO[Terminal I/O Wrapper]
+        TIO --> ASC[Asciinema Formatter]
+    end
+    
+    subgraph "Control Plane"
+        CP[Coordination Server] -.->|ACL Policy| TS
+        CP -.->|Recorder Config| SR
+        CP -.->|Node Registry| RN
+    end
+    
+    subgraph "Recorder Infrastructure"
+        subgraph "Primary Recorder Node"
+            RN[tsrecorder Service]
+            RN --> API{API Version}
+            API -->|v2| V2[HTTP/2 Handler]
+            API -->|v1| V1[HTTP Handler]
+            V2 --> ACK[Acknowledgment Stream]
+            V2 --> ST[Storage Handler]
+            V1 --> ST
+        end
+        
+        subgraph "Storage Backends"
+            ST --> FS[Filesystem Backend]
+            ST --> S3[S3 Backend]
+            FS --> DISK[(Local Disk)]
+            S3 --> CLOUD[(S3/R2/B2)]
+        end
+        
+        subgraph "Optional UI"
+            WEB[Web UI :443] --> RN
+            WEB --> PLAYER[Asciinema Player]
+        end
+    end
+    
+    subgraph "Failover Recorder Nodes"
+        RN2[Recorder 2] -.->|Failover| ST
+        RN3[Recorder 3] -.->|Failover| ST
+    end
+    
+    SR -->|Stream Recording| RN
+    SR -.->|If Primary Fails| RN2
+    SR -.->|If Secondary Fails| RN3
+    
+    style U fill:#2196f3,stroke:#fff,stroke-width:2px,color:#fff
+    style CP fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style RN fill:#4caf50,stroke:#fff,stroke-width:2px,color:#fff
+    style CLOUD fill:#ff9800,stroke:#fff,stroke-width:2px,color:#fff
+    style DISK fill:#607d8b,stroke:#fff,stroke-width:2px,color:#fff
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=data-flow-sequence>Data Flow Sequence</h2><div class=mermaid-wrapper><pre class=mermaid>sequenceDiagram
+    participant User
+    participant SSH Server
+    participant Recorder Client
+    participant tsrecorder
+    participant Storage
+    
+    User->>SSH Server: SSH Connection Request
+    SSH Server->>SSH Server: Check ACL Policy
+    
+    alt Recording Required
+        SSH Server->>Recorder Client: Start Recording
+        Recorder Client->>tsrecorder: Probe v2 Support (HEAD /v2/record)
+        tsrecorder-->>Recorder Client: HTTP 200 (v2 supported)
+        
+        Recorder Client->>tsrecorder: POST /v2/record (HTTP/2)
+        Note over Recorder Client,tsrecorder: Send Asciinema Header
+        tsrecorder->>Storage: Initialize Recording
+        
+        loop Session Active
+            SSH Server->>Recorder Client: Terminal Output
+            Recorder Client->>Recorder Client: Format as Asciinema
+            Recorder Client->>tsrecorder: Stream Data
+            tsrecorder->>Storage: Write Data
+            
+            alt Every 5 seconds (v2)
+                tsrecorder-->>Recorder Client: Acknowledgment Frame
+            end
+        end
+        
+        User->>SSH Server: Exit Session
+        Recorder Client->>tsrecorder: Close Stream
+        tsrecorder->>Storage: Finalize Recording
+    else Recording Not Required
+        SSH Server->>User: Normal SSH Session
+    end
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=recording-format-structure>Recording Format Structure</h2><div class=mermaid-wrapper><pre class=mermaid>graph LR
+    subgraph "Asciinema v2 Format"
+        H[Header JSON] --> |Contains| M[Metadata]
+        M --> W[Width/Height]
+        M --> T[Timestamp]
+        M --> N[Node Info]
+        M --> U[User Details]
+        
+        B[Body Lines] --> |Contains| E[Events]
+        E --> TS[Timestamp]
+        E --> ET[Event Type]
+        E --> ED[Event Data]
+    end
+    
+    style H fill:#2196f3,stroke:#fff,stroke-width:2px,color:#fff
+    style B fill:#4caf50,stroke:#fff,stroke-width:2px,color:#fff
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=acl-configuration-flow>ACL Configuration Flow</h2><div class=mermaid-wrapper><pre class=mermaid>graph TD
+    A[SSH Access Rule] --> B{Recording Config?}
+    B -->|Yes| C[recorders: tag:recorder]
+    B -->|No| D[No Recording]
+    
+    C --> E{enforceRecorder?}
+    E -->|true| F[Fail Closed]
+    E -->|false| G[Fail Open]
+    
+    F --> H[Reject if Recording Fails]
+    G --> I[Allow Even if Recording Fails]
+    
+    style A fill:#2196f3,stroke:#fff,stroke-width:2px,color:#fff
+    style F fill:#f44336,stroke:#fff,stroke-width:2px,color:#fff
+    style G fill:#ff9800,stroke:#fff,stroke-width:2px,color:#fff
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=storage-backend-options>Storage Backend Options</h2><div class=mermaid-wrapper><pre class=mermaid>graph TD
+    R[tsrecorder] --> SH{Storage Handler}
+    
+    SH --> FS[Filesystem Backend]
+    SH --> S3[S3 Backend]
+    
+    FS --> FP[File Path Structure]
+    FP --> |Format| FSS[basePath/NodeID/timestamp.cast]
+    
+    S3 --> S3C{S3 Provider}
+    S3C --> AWS[AWS S3]
+    S3C --> CF[Cloudflare R2]
+    S3C --> BB[Backblaze B2]
+    S3C --> GCS[Google Cloud Storage]
+    S3C --> MIN[MinIO]
+    
+    style R fill:#4caf50,stroke:#fff,stroke-width:2px,color:#fff
+    style AWS fill:#ff9800,stroke:#fff,stroke-width:2px,color:#fff
+    style CF fill:#ff9800,stroke:#fff,stroke-width:2px,color:#fff
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=failure-handling-states>Failure Handling States</h2><div class=mermaid-wrapper><pre class=mermaid>stateDiagram-v2
+    [*] --> Connecting: SSH Session Start
+    Connecting --> CheckPolicy: Validate ACL
+    
+    CheckPolicy --> NoRecording: Recording Not Required
+    CheckPolicy --> FindRecorder: Recording Required
+    
+    FindRecorder --> TryPrimary: Get Recorder IPs
+    TryPrimary --> Connected: Success
+    TryPrimary --> TryFailover: Connection Failed
+    
+    TryFailover --> Connected: Failover Success
+    TryFailover --> RecordingFailed: All Recorders Down
+    
+    RecordingFailed --> SessionRejected: enforceRecorder=true
+    RecordingFailed --> SessionAllowed: enforceRecorder=false
+    
+    Connected --> Streaming: Start Recording
+    Streaming --> SessionComplete: Normal Exit
+    Streaming --> ConnectionLost: Recorder Down
+    
+    ConnectionLost --> SessionTerminated: enforceRecorder=true
+    ConnectionLost --> ContinueUnrecorded: enforceRecorder=false
+    
+    NoRecording --> SessionComplete
+    SessionAllowed --> SessionComplete
+    ContinueUnrecorded --> SessionComplete
+    SessionComplete --> [*]
+    SessionRejected --> [*]
+    SessionTerminated --> [*]
+  </pre></div><style>.mermaid-wrapper{background:#2a2a2a;border-radius:8px;padding:2rem;margin:1rem 0;overflow-x:auto}.mermaid{text-align:center;background:0 0}.mermaid svg{max-width:100%;height:auto}</style><h2 id=key-features>Key Features</h2><ul><li><strong>End-to-End Encryption</strong>: All recordings streamed over WireGuard-encrypted tailnet connections</li><li><strong>Privacy by Design</strong>: Recordings stored on user-controlled infrastructure, never visible to Tailscale</li><li><strong>Flexible Storage</strong>: Support for local filesystem or S3-compatible object storage</li><li><strong>High Availability</strong>: Multiple recorder nodes with automatic failover</li><li><strong>Compliance Ready</strong>: Asciinema format allows searching and auditing of sessions</li><li><strong>Access Control</strong>: Fine-grained ACL policies determine which sessions are recorded</li><li><strong>Fail-Safe Options</strong>: Configurable behavior when recording infrastructure is unavailable</li></ul></div></article><style>.diagram-single{max-width:1200px;margin:0 auto;padding:2rem}.diagram-header{margin-bottom:2rem;text-align:center}.diagram-header h1{font-size:2.5rem;margin-bottom:1rem}.description{font-size:1.2rem;color:var(--text-secondary);margin-bottom:1rem}.metadata{display:flex;justify-content:center;align-items:center;gap:2rem;color:var(--text-secondary);font-size:.9rem}.tags{display:flex;gap:.5rem}.tag{background:var(--bg-secondary);padding:.25rem .75rem;border-radius:9999px;text-decoration:none;color:var(--text-secondary);transition:all .3s}.tag:hover{background:var(--accent);color:#fff}.diagram-container{background:var(--bg-secondary);border-radius:8px;padding:2rem;margin:2rem 0;overflow:auto}.svg-wrapper{display:flex;justify-content:center;align-items:center;min-height:400px}.svg-wrapper svg{max-width:100%;height:auto}.diagram-description{margin-top:2rem;font-size:1.1rem;line-height:1.8}</style></main><script type=module>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1a1a1a',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#ffffff',
+        lineColor: '#ffffff',
+        secondaryColor: '#2196f3',
+        tertiaryColor: '#4caf50',
+        background: '#1a1a1a',
+        mainBkg: '#2a2a2a',
+        secondBkg: '#2196f3',
+        tertiaryBkg: '#4caf50',
+        secondaryBorderColor: '#ffffff',
+        tertiaryBorderColor: '#ffffff',
+        secondaryTextColor: '#ffffff',
+        tertiaryTextColor: '#ffffff',
+        edgeLabelBackground: '#2a2a2a',
+        nodeTextColor: '#ffffff',
+        textColor: '#ffffff',
+        titleColor: '#ffffff',
+        labelTextColor: '#ffffff',
+        actorBorder: '#ffffff',
+        actorBkg: '#2a2a2a',
+        actorTextColor: '#ffffff',
+        actorLineColor: '#ffffff',
+        signalColor: '#ffffff',
+        signalTextColor: '#ffffff',
+        labelBoxBkgColor: '#2a2a2a',
+        labelBoxBorderColor: '#ffffff',
+        noteBkgColor: '#3a3a3a',
+        noteTextColor: '#ffffff',
+        noteBorderColor: '#ffffff',
+        activationBorderColor: '#ffffff',
+        activationBkgColor: '#3a3a3a',
+        sequenceNumberColor: '#000000',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+        fontSize: '16px',
+        darkMode: true,
+        flowchart: {
+          htmlLabels: true,
+          curve: 'basis',
+          rankSpacing: 50,
+          nodeSpacing: 30,
+          padding: 15,
+          useMaxWidth: true
+        }
+      }
+    });
+  </script></body></html>
