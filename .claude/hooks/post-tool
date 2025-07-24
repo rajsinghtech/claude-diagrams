@@ -1,0 +1,77 @@
+#!/bin/bash
+# Post-tool hook for claude-diagrams project
+# Validates SVG files after Write/Edit/MultiEdit operations
+
+set -e
+
+# Only run for Write, Edit, and MultiEdit tools
+if [[ "$TOOL_NAME" != "Write" && "$TOOL_NAME" != "Edit" && "$TOOL_NAME" != "MultiEdit" ]]; then
+    exit 0
+fi
+
+# Only validate SVG files
+if [[ ! "$FILE_PATH" =~ \.svg$ ]]; then
+    exit 0
+fi
+
+echo "🎨 Validating SVG file: $FILE_PATH"
+
+# Check if file exists
+if [ ! -f "$FILE_PATH" ]; then
+    echo "❌ Error: SVG file not found: $FILE_PATH"
+    exit 1
+fi
+
+# Run validation checks
+errors=0
+
+# 1. XML syntax validation using xmllint
+if command -v xmllint > /dev/null 2>&1; then
+    echo "🔍 Checking XML syntax..."
+    if ! xmllint --noout "$FILE_PATH" 2>&1; then
+        echo "❌ XML syntax error detected"
+        errors=$((errors + 1))
+    fi
+else
+    echo "⚠️  Warning: xmllint not found, skipping XML syntax validation"
+fi
+
+# 3. Check for viewBox attribute
+if ! grep -q 'viewBox=' "$FILE_PATH"; then
+    echo "❌ Missing viewBox attribute (required for responsive scaling)"
+    errors=$((errors + 1))
+fi
+
+# 4. Check for Inter font family (required by standards)
+if ! grep -q 'font-family="Inter' "$FILE_PATH"; then
+    echo "⚠️  Warning: Missing Inter font family. Should use: font-family=\"Inter, Arial, sans-serif\""
+    # Not a hard error for non-Tailscale diagrams
+fi
+
+# 5. Check color compliance for Tailscale diagrams
+if [[ "$FILE_PATH" =~ /tailscale|/tailnet|/acl|/exit-node|/subnet ]]; then
+    # Check for non-standard colors
+    if grep -E 'fill="#|stroke="#' "$FILE_PATH" | grep -vE '#000000|#FFFFFF|#F5F5F5|#E3F2FD|#2196F3|#4CAF50|#FF9800|#F44336|#607D8B|#374151|#64748B|#9CA3AF|#6B7280|#E5E7EB|#FFC107' > /dev/null; then
+        echo "⚠️  Warning: Non-standard colors detected in Tailscale diagram"
+        echo "   Allowed colors: #000000, #FFFFFF, #F5F5F5, #E3F2FD, #2196F3, #4CAF50, #FF9800, #F44336, #607D8B, #374151, #64748B, #9CA3AF, #6B7280, #E5E7EB, #FFC107"
+    fi
+fi
+
+# 6. Check file location
+if [[ ! "$FILE_PATH" =~ content/diagrams/[^/]+/[^/]+/[^/]+\.svg$ ]]; then
+    echo "⚠️  Warning: SVG not in standard location (content/diagrams/[category]/[diagram-name]/[diagram-name].svg)"
+fi
+
+# 7. Check for corresponding index.md
+index_file="${FILE_PATH%/*}/index.md"
+if [ ! -f "$index_file" ]; then
+    echo "❌ Missing index.md file in diagram directory"
+    errors=$((errors + 1))
+fi
+
+if [ $errors -gt 0 ]; then
+    echo "❌ SVG validation failed with $errors error(s)"
+    exit 1
+fi
+
+echo "✅ SVG validation passed"

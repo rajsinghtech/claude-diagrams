@@ -1,0 +1,23 @@
+<div class="mermaid-wrapper">
+  <pre class="mermaid">
+{{- .Inner | safeHTML }}
+  </pre>
+</div>
+{{ .Page.Store.Set "hasMermaid" true }}
+<style>
+  .mermaid-wrapper {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .mermaid {
+    text-align: center;
+    background: transparent;
+  }
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,61 @@
+#!/bin/bash
+# Pre-commit hook for claude-diagrams project
+# Runs code quality checks before submitting changes
+
+set -e
+
+echo "🔍 Running pre-commit checks..."
+
+# Check if we're in the right directory
+if [ ! -f "go.mod" ] || [ ! -f "package.json" ]; then
+    echo "❌ Error: Not in claude-diagrams root directory"
+    exit 1
+fi
+
+# 1. Run Go formatting
+echo "📝 Running Go formatter..."
+if go fmt ./... | grep -q .; then
+    echo "✅ Go files formatted"
+else
+    echo "✅ Go files already formatted"
+fi
+
+# 2. Build Hugo to check for errors
+echo "🏗️  Building Hugo site..."
+if npm run build > /dev/null 2>&1; then
+    echo "✅ Hugo build successful"
+else
+    echo "❌ Hugo build failed"
+    npm run build
+    exit 1
+fi
+
+# 3. Build Go binary to verify compilation
+echo "🔨 Building Go binary..."
+if go build -o claude-diagrams . > /dev/null 2>&1; then
+    echo "✅ Go build successful"
+    rm -f claude-diagrams  # Clean up binary
+else
+    echo "❌ Go build failed"
+    go build -o claude-diagrams .
+    exit 1
+fi
+
+# 4. Check for common issues
+echo "🔎 Checking for common issues..."
+
+# Check for missing index.md files in diagram directories
+missing_index=0
+for dir in content/diagrams/*/*/; do
+    if [ -d "$dir" ] && [ ! -f "${dir}index.md" ]; then
+        echo "⚠️  Warning: Missing index.md in $dir"
+        missing_index=1
+    fi
+done
+
+if [ $missing_index -eq 1 ]; then
+    echo "❌ Some diagram directories are missing index.md files"
+    exit 1
+fi
+
+echo "✅ All pre-commit checks passed!"

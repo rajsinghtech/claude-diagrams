@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  {{ hugo.Generator }}
+  {{ $css := resources.Get "css/main.scss" | toCSS | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+  {{ partial "head-custom.html" . }}
+</head>
+<body>
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+  
+  {{ if .Store.Get "hasMermaid" }}
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1a1a1a',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#ffffff',
+        lineColor: '#ffffff',
+        secondaryColor: '#2196f3',
+        tertiaryColor: '#4caf50',
+        background: '#1a1a1a',
+        mainBkg: '#2a2a2a',
+        secondBkg: '#2196f3',
+        tertiaryBkg: '#4caf50',
+        secondaryBorderColor: '#ffffff',
+        tertiaryBorderColor: '#ffffff',
+        secondaryTextColor: '#ffffff',
+        tertiaryTextColor: '#ffffff',
+        edgeLabelBackground: '#2a2a2a',
+        nodeTextColor: '#ffffff',
+        textColor: '#ffffff',
+        titleColor: '#ffffff',
+        labelTextColor: '#ffffff',
+        actorBorder: '#ffffff',
+        actorBkg: '#2a2a2a',
+        actorTextColor: '#ffffff',
+        actorLineColor: '#ffffff',
+        signalColor: '#ffffff',
+        signalTextColor: '#ffffff',
+        labelBoxBkgColor: '#2a2a2a',
+        labelBoxBorderColor: '#ffffff',
+        noteBkgColor: '#3a3a3a',
+        noteTextColor: '#ffffff',
+        noteBorderColor: '#ffffff',
+        activationBorderColor: '#ffffff',
+        activationBkgColor: '#3a3a3a',
+        sequenceNumberColor: '#000000',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+        fontSize: '16px',
+        darkMode: true,
+        flowchart: {
+          htmlLabels: true,
+          curve: 'basis',
+          rankSpacing: 50,
+          nodeSpacing: 30,
+          padding: 15,
+          useMaxWidth: true
+        }
+      }
+    });
+  </script>
+  {{ end }}
+</body>
+</html>

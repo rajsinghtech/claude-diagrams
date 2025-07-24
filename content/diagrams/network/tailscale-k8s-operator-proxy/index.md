@@ -3,7 +3,7 @@ title: "Tailscale Kubernetes Operator Proxy Architecture"
 description: "Technical diagram showing Tailscale Kubernetes Operator ingress and egress proxy flows for connecting external Tailscale clients to K8s services and K8s workloads to external resources"
 date: 2025-07-23
 categories: ["network"]
-tags: ["tailscale", "kubernetes", "operator", "proxy", "ingress", "egress", "service-mesh"]
+tags: ["wireguard", "kubernetes", "zero-trust", "ingress", "egress", "mesh-vpn", "connector", "exit-node", "cloud"]
 ---
 
 This diagram illustrates the Tailscale Kubernetes Operator proxy architecture, showing:
