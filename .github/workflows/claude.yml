@@ -43,6 +43,31 @@ jobs:
           # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4)
           model: "claude-opus-4-20250514"
           
+          # Enable WebFetch and WebSearch tools for external research
+          allowed_tools: "WebFetch,WebSearch,Bash(*),Read,Write,Edit,MultiEdit,Glob,Grep,LS,Task"
+          
+          # MCP configuration for enhanced capabilities
+          mcp_config: |
+            {
+              "mcpServers": {
+                "fetch": {
+                  "command": "npx",
+                  "args": ["-y", "@modelcontextprotocol/server-fetch"]
+                },
+                "github": {
+                  "command": "npx",
+                  "args": ["-y", "@modelcontextprotocol/server-github"],
+                  "env": {
+                    "GITHUB_PERSONAL_ACCESS_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+                  }
+                },
+                "web-search": {
+                  "command": "npx",
+                  "args": ["-y", "@modelcontextprotocol/server-web-search"]
+                }
+              }
+            }
+          
           # Optional: Customize the trigger phrase (default: @claude)
           # trigger_phrase: "/claude"
           
@@ -52,11 +77,14 @@ jobs:
           # Optional: Allow Claude to run specific commands
           # allowed_tools: "Bash(npm install),Bash(npm run build),Bash(npm run test:*),Bash(npm run lint:*)"
           
-          # Optional: Add custom instructions for Claude to customize its behavior for your project
-          # custom_instructions: |
-          #   Follow our coding standards
-          #   Ensure all new code has tests
-          #   Use TypeScript for new files
+          # Custom instructions for Claude to research Tailscale
+          custom_instructions: |
+            When creating or updating Tailscale-related diagrams:
+            - You can research the Tailscale GitHub repository at https://github.com/tailscale/tailscale
+            - You can fetch documentation from https://tailscale.com/kb/ and https://tailscale.com/docs/
+            - Use WebSearch to find the latest Tailscale features and architecture details
+            - Reference actual Tailscale code and documentation for accuracy
+            - Follow the Tailscale-specific standards in CLAUDE.md
           
           # Optional: Custom environment variables for Claude
           # claude_env: |
