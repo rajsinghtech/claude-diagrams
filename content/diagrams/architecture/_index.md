@@ -5,9 +5,9 @@ date: 2025-01-23
 categories: ["Technical"]
 tags: ["architecture", "system-design"]
 params:
-  featured_image: microservices-architecture.svg
+  featured_image: claude-diagrams-overview.svg
 resources:
-  - src: microservices-architecture.svg
+  - src: claude-diagrams-overview.svg
     name: featured
 ---
 
