@@ -35,7 +35,15 @@ jobs:
         uses: anthropics/claude-code-action@beta
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-
+          experimental_allowed_domains: |
+            .anthropic.com
+            .github.com
+            api.github.com
+            .githubusercontent.com
+            bun.sh
+            registry.npmjs.org
+            .blob.core.windows.net
+            .tailscale.com
           # This is an optional setting that allows Claude to read CI results on PRs
           additional_permissions: |
             actions: write
