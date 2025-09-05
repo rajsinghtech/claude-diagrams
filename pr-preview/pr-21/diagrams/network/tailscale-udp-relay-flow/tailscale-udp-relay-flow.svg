@@ -1,0 +1,108 @@
+<svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Arrowhead markers -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#000000"/>
+    </marker>
+    <marker id="arrowhead-grey" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#6B7280"/>
+    </marker>
+    <marker id="arrowhead-double" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#000000"/>
+    </marker>
+  </defs>
+  
+  <title>Basic DERP Relay Flow</title>
+  <desc>Visualizing how Tailscale uses DERP servers for UDP relay and connection establishment</desc>
+  
+  <!-- Background -->
+  <rect width="900" height="600" fill="#FFFFFF"/>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600" fill="#000000">Basic DERP Relay Flow</text>
+  
+  <!-- Node A Network Group -->
+  <g id="node-a-network">
+    <rect x="50" y="150" width="200" height="300" fill="#F5F5F5" stroke="#E5E7EB" stroke-width="1" rx="5"/>
+    <text x="150" y="130" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="500" fill="#374151">Node A Network</text>
+    
+    <!-- Node A -->
+    <rect x="80" y="250" width="140" height="80" fill="#1976d2" stroke="#FFFFFF" stroke-width="2" rx="5"/>
+    <text x="150" y="275" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF">Node A</text>
+    <text x="150" y="295" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#FFFFFF">100.64.1.10</text>
+    <text x="150" y="315" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#FFFFFF">Behind NAT</text>
+  </g>
+  
+  <!-- DERP Infrastructure Group -->
+  <g id="derp-infrastructure">
+    <rect x="350" y="100" width="200" height="400" fill="#FEF3E2" stroke="#FED7AA" stroke-width="1" rx="5"/>
+    <text x="450" y="80" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="500" fill="#374151">DERP Infrastructure</text>
+    
+    <!-- DERP Server -->
+    <rect x="380" y="250" width="140" height="80" fill="#f57c00" stroke="#FFFFFF" stroke-width="2" rx="5" stroke-dasharray="5,3"/>
+    <text x="450" y="275" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF">DERP Server</text>
+    <text x="450" y="295" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#FFFFFF">nyc.derp.example</text>
+    <text x="450" y="315" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#FFFFFF">Relay Only</text>
+  </g>
+  
+  <!-- Node B Network Group -->
+  <g id="node-b-network">
+    <rect x="650" y="150" width="200" height="300" fill="#F5F5F5" stroke="#E5E7EB" stroke-width="1" rx="5"/>
+    <text x="750" y="130" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="500" fill="#374151">Node B Network</text>
+    
+    <!-- Node B -->
+    <rect x="680" y="250" width="140" height="80" fill="#1976d2" stroke="#FFFFFF" stroke-width="2" rx="5"/>
+    <text x="750" y="275" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="500" fill="#FFFFFF">Node B</text>
+    <text x="750" y="295" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#FFFFFF">100.64.2.20</text>
+    <text x="750" y="315" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#FFFFFF">Behind NAT</text>
+  </g>
+  
+  <!-- Connection Flows -->
+  <g id="connections">
+    <!-- 1. Initial Connection via DERP -->
+    <path d="M 220 270 Q 300 230 380 270" fill="none" stroke="#6B7280" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead-grey)"/>
+    <rect x="240" y="220" width="120" height="40" fill="#FFFFFF" stroke="none"/>
+    <text x="300" y="235" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#374151">1. Initial Connection</text>
+    <text x="300" y="250" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#374151">via DERP</text>
+    
+    <!-- 2. Relay Encrypted Traffic -->
+    <path d="M 520 290 Q 600 250 680 290" fill="none" stroke="#6B7280" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowhead-grey)"/>
+    <rect x="540" y="220" width="120" height="40" fill="#FFFFFF" stroke="none"/>
+    <text x="600" y="235" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#374151">2. Relay Encrypted</text>
+    <text x="600" y="250" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#374151">WireGuard Traffic</text>
+    
+    <!-- 3. Attempt Direct Connection -->
+    <path d="M 220 330 Q 450 420 680 330" fill="none" stroke="#FF9800" stroke-width="2" stroke-dasharray="2,2" marker-end="url(#arrowhead)"/>
+    <rect x="380" y="410" width="140" height="55" fill="#FFFFFF" stroke="none"/>
+    <text x="450" y="425" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#374151">3. Attempt Direct</text>
+    <text x="450" y="440" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#374151">Connection</text>
+    <text x="450" y="455" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#374151">NAT Traversal</text>
+    
+    <!-- 4. Upgrade to Direct P2P -->
+    <line x1="220" y1="290" x2="680" y2="290" stroke="#000000" stroke-width="3" marker-end="url(#arrowhead-double)"/>
+    <rect x="380" y="345" width="140" height="55" fill="#FFFFFF" stroke="none"/>
+    <text x="450" y="360" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500" fill="#000000">4. Upgrade to Direct</text>
+    <text x="450" y="375" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500" fill="#000000">P2P Connection</text>
+    <text x="450" y="390" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500" fill="#000000">When Successful</text>
+  </g>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <text x="50" y="510" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#000000">Connection Types:</text>
+    
+    <!-- Solid Lines -->
+    <line x1="50" y1="535" x2="90" y2="535" stroke="#000000" stroke-width="3"/>
+    <text x="100" y="540" font-family="Inter, Arial, sans-serif" font-size="12" fill="#374151">Active data flow (WireGuard encrypted)</text>
+    
+    <!-- Dashed Lines -->
+    <line x1="350" y1="535" x2="390" y2="535" stroke="#6B7280" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="400" y="540" font-family="Inter, Arial, sans-serif" font-size="12" fill="#374151">DERP relay connections</text>
+    
+    <!-- Dotted Lines -->
+    <line x1="50" y1="560" x2="90" y2="560" stroke="#FF9800" stroke-width="2" stroke-dasharray="2,2"/>
+    <text x="100" y="565" font-family="Inter, Arial, sans-serif" font-size="12" fill="#374151">NAT traversal attempts</text>
+    
+    <!-- Double Lines -->
+    <text x="350" y="565" font-family="Inter, Arial, sans-serif" font-size="12" fill="#374151">Upgraded direct P2P connection</text>
+  </g>
+</svg>
