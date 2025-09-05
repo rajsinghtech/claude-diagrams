@@ -41,7 +41,7 @@ jobs:
           destination_dir: pr-preview/pr-${{ github.event.pull_request.number }}
 
       - name: Comment PR
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const url = `https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.pull_request.number }}/`;
